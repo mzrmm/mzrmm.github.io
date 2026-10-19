@@ -52,6 +52,13 @@
         '"Gill Sans", "Gill Sans MT", Calibri, sans-serif'
       ];
       var el = document.getElementById("brand");
+      var colors = [
+        "rgb(51, 255, 51)",
+        "#FFBF00",
+        "#34ebe8",
+        "#c934eb",
+        "#ccff00"
+      ];
       var frame = 0;
       var start = performance.now();
       var duration = 2000;
@@ -61,6 +68,8 @@
       var startScale = 0.7;
       var endScale = 1;
       var endFont = '"Inter", Helvetica, Arial, sans-serif';
+
+      el.style.color = colors[Math.floor(Math.random() * colors.length)];
 
       for (var i = fonts.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
