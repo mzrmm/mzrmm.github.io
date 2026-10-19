@@ -37,7 +37,19 @@
         '"Times New Roman", Times, serif',
         "Helvetica, sans-serif",
         "Georgia, serif",
-        "Verdana, sans-serif"
+        "Verdana, sans-serif",
+        '"Courier New", Courier, monospace',
+        "Impact, Charcoal, sans-serif",
+        '"Trebuchet MS", Helvetica, sans-serif',
+        '"Comic Sans MS", cursive',
+        '"Palatino Linotype", Palatino, serif',
+        '"Lucida Console", Monaco, monospace',
+        "Tahoma, Geneva, sans-serif",
+        '"Segoe UI", Tahoma, sans-serif',
+        "Garamond, Baskerville, serif",
+        '"Franklin Gothic Medium", "Arial Narrow", sans-serif',
+        "Optima, Candara, sans-serif",
+        '"Gill Sans", "Gill Sans MT", Calibri, sans-serif'
       ];
       var el = document.getElementById("brand");
       var frame = 0;
@@ -46,6 +58,16 @@
       var steadyMs = 1000;
       var startFps = 15;
       var endFps = 2;
+      var startScale = 0.7;
+      var endScale = 1;
+      var endFont = '"Inter", Helvetica, Arial, sans-serif';
+
+      for (var i = fonts.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = fonts[i];
+        fonts[i] = fonts[j];
+        fonts[j] = tmp;
+      }
 
       function delayFor(elapsed) {
         if (elapsed < steadyMs) return 1000 / startFps;
@@ -54,17 +76,26 @@
         return 1000 / Math.max(fps, endFps);
       }
 
+      function applyScale(elapsed) {
+        var t = Math.min(elapsed / duration, 1);
+        var scale = startScale + (endScale - startScale) * t;
+        el.style.transform = "scale(" + scale + ")";
+      }
+
       function tick() {
         var elapsed = performance.now() - start;
         if (elapsed >= duration) {
-          el.style.fontFamily = "";
+          el.style.fontFamily = endFont;
+          el.style.transform = "";
           return;
         }
         el.style.fontFamily = fonts[frame % fonts.length];
+        applyScale(elapsed);
         frame += 1;
         setTimeout(tick, delayFor(elapsed));
       }
 
+      applyScale(0);
       tick();
     })();
   </script>
