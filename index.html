@@ -5,7 +5,7 @@
   <title>github | mzrmm</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;900&display=swap" rel="stylesheet">
   <style>
     body {
       background: black;
@@ -23,9 +23,50 @@
 
     .pipe {
       color: white;
+      font-family: "Inter", Helvetica, Arial, sans-serif;
       font-weight: 200;
     }
   </style>
 </head>
-<body><main>MZ<span class="pipe">|</span>RMM</main></body>
+<body>
+  <main id="brand">MZ<span class="pipe">|</span>RMM</main>
+  <script>
+    (function () {
+      var fonts = [
+        "Arial, sans-serif",
+        '"Times New Roman", Times, serif',
+        "Helvetica, sans-serif",
+        "Georgia, serif",
+        "Verdana, sans-serif"
+      ];
+      var el = document.getElementById("brand");
+      var frame = 0;
+      var start = performance.now();
+      var duration = 2000;
+      var steadyMs = 1000;
+      var startFps = 15;
+      var endFps = 2;
+
+      function delayFor(elapsed) {
+        if (elapsed < steadyMs) return 1000 / startFps;
+        var t = (elapsed - steadyMs) / (duration - steadyMs);
+        var fps = startFps + (endFps - startFps) * t;
+        return 1000 / Math.max(fps, endFps);
+      }
+
+      function tick() {
+        var elapsed = performance.now() - start;
+        if (elapsed >= duration) {
+          el.style.fontFamily = "";
+          return;
+        }
+        el.style.fontFamily = fonts[frame % fonts.length];
+        frame += 1;
+        setTimeout(tick, delayFor(elapsed));
+      }
+
+      tick();
+    })();
+  </script>
+</body>
 </html>
